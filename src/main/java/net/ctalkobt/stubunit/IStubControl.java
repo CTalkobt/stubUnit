@@ -18,16 +18,58 @@
 
 package net.ctalkobt.stubunit;
 
+/**
+ * Control interface for {@link StubUnit}.  This allows more than one 
+ * set of stubs to be registered at any given time. 
+ * 
+ */
 public interface IStubControl {
 
-    <T> IStubControl addStub(T stub, Class<T> stubRef);
+    /** 
+     * Registers stub reference for a specific class. 
+     * 
+     * @param <T>
+     * @param stubRef
+     * @param stubClassRef
+     * @return 
+     */
+    <T> IStubControl addStub(T stubRef, Class<T> stubClassRef);
 
-    <T> IStubControl delStub(T stub);
+    /**
+     * Removes a stub reference.
+     * 
+     * @param <T>
+     * @param stubRef
+     * @return 
+     */
+    <T> IStubControl delStub(T stubRef);
 
+    /**
+     * Populate 1 or more objects recursively. Any occurrences of setSomeName(X)
+     * where the type of X has previously been configured via {@link addStub}
+     * will be populated.
+     * 
+     * @param object
+     * @return 
+     */
     IStubControl populate(Object ... object);
 
+    /**
+     * Populate all stub objects that have been registered.
+     * 
+     * @return 
+     * @see #populate(java.lang.Object...) 
+     */
     IStubControl populateAll();
 
+    /**
+     * Removes a stub reference based upon stub and class type. 
+     * 
+     * @param <T>
+     * @param stub
+     * @param stubRef
+     * @return 
+     */
     <T> IStubControl delStub(T stub, Class<T> stubRef);
     
 }
