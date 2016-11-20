@@ -25,26 +25,70 @@ public class StubUnit {
         /* No default constructor .. .*/
     }
 
+    /**
+     * Create a new StubControl instance. 
+     * 
+     * @return 
+     */
     public static final IStubControl createControl() {
         return new StubControlImpl();
     }
 
-    public static final <T> IStubControl addStub(T stub, Class<T> stubRef) {
-        return control.addStub(stub, stubRef);
+    /** 
+     * Registers stub reference for a specific class. 
+     * 
+     * @param <T>
+     * @param stubRef
+     * @param stubClassRef
+     * @return 
+     */    
+    public static final <T> IStubControl addStub(T stubRef, Class<T> stubClassRef) {
+        return control.addStub(stubRef, stubClassRef);
     }
 
-    public static final <T> IStubControl delStub(T stub) {
-        return control.delStub(stub);
+    
+    /**
+     * Removes a stub reference.
+     * 
+     * @param <T>
+     * @param stubRef
+     * @return 
+     */    
+    public static final <T> IStubControl delStub(T stubRef) {
+        return control.delStub(stubRef);
     }
 
-    public static final <T> IStubControl delStub(T stub, Class<T> stubRef) {
-        return control.delStub(stub, stubRef);
+    /**
+     * Removes a stub reference based upon stub and class type. 
+     * 
+     * @param <T>
+     * @param stubRef
+     * @param stubClassRef
+     * @return 
+     */    
+    public static final <T> IStubControl delStub(T stubRef, Class<T> stubClassRef) {
+        return control.delStub(stubRef, stubClassRef);
     }
 
-    public static final <T> IStubControl populate(T object) {
-        return control.populate(object);
+    /**
+     * Populate 1 or more objects recursively. Any occurrences of setSomeName(X)
+     * where the type of X has previously been configured via {@link addStub}
+     * will be populated.
+     * 
+     * @param <T>
+     * @param objects
+     * @return 
+     */    
+    public static final <T> IStubControl populate(Object... objects) {
+        return control.populate(objects);
     }
 
+    /**
+     * Populate all stub objects that have been registered.
+     * 
+     * @return 
+     * @see #populate(java.lang.Object...) 
+     */    
     public static final IStubControl populateAll() {
         return control.populateAll();
     }

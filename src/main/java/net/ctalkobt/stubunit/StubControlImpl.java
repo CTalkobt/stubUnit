@@ -29,8 +29,8 @@ import java.util.logging.Logger;
     private final Map<Class, Object> stubMap = new HashMap<>();
     
     @Override
-    public <T> IStubControl addStub(T stub, Class<T> stubRef) {
-        stubMap.put(stubRef, stub);
+    public <T> IStubControl addStub(T stubRef, Class<T> stubClassRef) {
+        stubMap.put(stubClassRef, stubRef);
         return this;
     }
 
@@ -47,20 +47,21 @@ import java.util.logging.Logger;
     public IStubControl populate(Object objects[]) {
         for (Object object:objects)
         {
-        Arrays.asList(object.getClass().getDeclaredMethods()).parallelStream()
-            .filter(m -> m.getName().startsWith("set"))
-            .filter(m -> m.getParameterCount() == 1)
-            .filter(m -> m.getAnnotationsByType(Transient.class).length == 0)
-            .filter(m -> stubMap.keySet().contains(m.getParameterTypes()[0]))
-            .forEach(m ->  {
-                Class setterClass = m.getParameterTypes()[0];
-                Object val = stubMap.get(setterClass);
-                try {
-                    m.invoke(object, val);
-                } catch (ReflectiveOperationException | IllegalArgumentException ex) {
-                    Logger.getLogger(StubControlImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
+            Arrays.asList(object.getClass().getDeclaredMethods()).parallelStream()
+                .filter(m -> m.getName().startsWith("set") &&
+                             m.getParameterCount() == 1 &&
+                             m.getAnnotationsByType(Transient.class).length == 0 &&
+                             stubMap.keySet().contains(m.getParameterTypes()[0]))
+                .forEach(m ->  {
+                    Class setterClass = m.getParameterTypes()[0];
+                    Object val = stubMap.get(setterClass);
+                    try {
+                        m.invoke(object, val);
+                    } catch (ReflectiveOperationException | IllegalArgumentException ex) {
+                        /** TODO: Best way to handle invocation errors? */
+                        Logger.getLogger(StubControlImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
         }
         return this;
     }
@@ -74,16 +75,14 @@ import java.util.logging.Logger;
     @Override
     public <T> IStubControl delStub(T stub, Class<T> stubRef) {
         stubMap.entrySet().stream()
-            .filter(en -> en.getValue().equals(stub))
-            .filter(en -> en.getKey().equals(stubRef))
+            .filter(en -> en.getValue().equals(stub) &&
+                          en.getKey().equals(stubRef))
             .forEach(st -> remove(st));
         return this;
     }
 
-    public int remove(Entry<Class, Object> en)
-    {
-        stubMap.remove(en.getKey(), en.getValue());
-        return 1;
+    public boolean remove(Entry<Class, Object> en) {
+        return stubMap.remove(en.getKey(), en.getValue());
     }
     
 }

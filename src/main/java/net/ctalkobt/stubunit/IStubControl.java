@@ -49,10 +49,10 @@ public interface IStubControl {
      * where the type of X has previously been configured via {@link addStub}
      * will be populated.
      * 
-     * @param object
+     * @param objects
      * @return 
      */
-    IStubControl populate(Object ... object);
+    IStubControl populate(Object ... objects);
 
     /**
      * Populate all stub objects that have been registered.
@@ -66,10 +66,10 @@ public interface IStubControl {
      * Removes a stub reference based upon stub and class type. 
      * 
      * @param <T>
-     * @param stub
      * @param stubRef
+     * @param stubClassRef
      * @return 
      */
-    <T> IStubControl delStub(T stub, Class<T> stubRef);
+    <T> IStubControl delStub(T stubRef, Class<T> stubClassRef);
     
 }
