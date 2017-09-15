@@ -17,12 +17,12 @@
  */
 package net.ctalkobt.stubunit.sampleDto;
 
-import junit.framework.Assert;
 import net.ctalkobt.stubunit.IStubControl;
 import net.ctalkobt.stubunit.StubUnit;
 import net.ctalkobt.stubunit.sampleDto.sample1.ChildDTO;
 import net.ctalkobt.stubunit.sampleDto.sample1.ParentDTO;
 import org.junit.Test;
+import org.junit.Assert;
 
 public class Sample1 {
 

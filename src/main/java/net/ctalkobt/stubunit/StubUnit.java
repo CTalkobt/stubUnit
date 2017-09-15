@@ -19,7 +19,7 @@ package net.ctalkobt.stubunit;
 
 public class StubUnit {
 
-    private static final IStubControl control = new StubControlImpl();
+    private static final IStubControl CONTROL = new StubControlImpl();
 
     private StubUnit() {
         /* No default constructor .. .*/
@@ -43,7 +43,7 @@ public class StubUnit {
      * @return 
      */    
     public static final <T> IStubControl addStub(T stubRef, Class<T> stubClassRef) {
-        return control.addStub(stubRef, stubClassRef);
+        return CONTROL.addStub(stubRef, stubClassRef);
     }
 
     
@@ -55,7 +55,7 @@ public class StubUnit {
      * @return 
      */    
     public static final <T> IStubControl delStub(T stubRef) {
-        return control.delStub(stubRef);
+        return CONTROL.delStub(stubRef);
     }
 
     /**
@@ -67,7 +67,7 @@ public class StubUnit {
      * @return 
      */    
     public static final <T> IStubControl delStub(T stubRef, Class<T> stubClassRef) {
-        return control.delStub(stubRef, stubClassRef);
+        return CONTROL.delStub(stubRef, stubClassRef);
     }
 
     /**
@@ -80,7 +80,7 @@ public class StubUnit {
      * @return 
      */    
     public static final <T> IStubControl populate(Object... objects) {
-        return control.populate(objects);
+        return CONTROL.populate(objects);
     }
 
     /**
@@ -90,7 +90,7 @@ public class StubUnit {
      * @see #populate(java.lang.Object...) 
      */    
     public static final IStubControl populateAll() {
-        return control.populateAll();
+        return CONTROL.populateAll();
     }
 
 }
