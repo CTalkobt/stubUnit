@@ -38,13 +38,13 @@ import java.util.logging.Logger;
     public <T extends Object> IStubControl delStub(T stub) {
         stubMap.entrySet().stream()
             .filter(en -> en.getValue().equals(stub))
-            .forEach(st -> remove(st));
+            .forEach(this::remove);
 
         return this;
     }
 
     @Override
-    public IStubControl populate(Object objects[]) {
+    public IStubControl populate(Object ... objects) {
         for (Object object:objects)
         {
             Arrays.asList(object.getClass().getDeclaredMethods()).parallelStream()
@@ -77,7 +77,7 @@ import java.util.logging.Logger;
         stubMap.entrySet().stream()
             .filter(en -> en.getValue().equals(stub) &&
                           en.getKey().equals(stubRef))
-            .forEach(st -> remove(st));
+            .forEach(this::remove);
         return this;
     }
 

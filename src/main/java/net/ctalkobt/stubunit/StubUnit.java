@@ -75,11 +75,10 @@ public class StubUnit {
      * where the type of X has previously been configured via {@link addStub}
      * will be populated.
      * 
-     * @param <T>
      * @param objects
      * @return 
      */    
-    public static final <T> IStubControl populate(Object... objects) {
+    public static final IStubControl populate(Object... objects) {
         return CONTROL.populate(objects);
     }
 
